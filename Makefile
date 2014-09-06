@@ -1,9 +1,16 @@
 OUTNAME = mallocTester
-COMPFLAGS = -g -Wall
+COMPFLAGS = -g -Wall -DDEBUG
 
-$(OUTNAME): main.c malloc.c malloc.h free.c
-	gcc $(COMPFLAGS) -o $@ main.c malloc.c free.c
+$(OUTNAME): main.c myMalloc.o myMalloc.h myFree.o
+	gcc $(COMPFLAGS) -o main.o -c main.c 
+	gcc $(COMPFLAGS) -o $@ main.o myMalloc.o myFree.o
+
+myFree.o: myFree.c
+	gcc $(COMPFLAGS) -o $@ -c myFree.c
+
+myMalloc.o: myMalloc.c
+	gcc $(COMPFLAGS) -o $@ -c myMalloc.c
 
 # requirement to supress errors from rm
-clean: $(OUTNAME)
-	rm $(OUTNAME)
+clean: $(OUTNAME) myFree.o myMalloc.o
+	rm $(OUTNAME) myFree.o myMalloc.o main.o

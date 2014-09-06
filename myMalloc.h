@@ -3,7 +3,7 @@
 
 #include <unistd.h> // size_t
 
-void* malloc(size_t numBytes);
-void free(void* p);
+void* myMalloc(size_t numBytes);
+void myFree(void* p);
 
 #endif
