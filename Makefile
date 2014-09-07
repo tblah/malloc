@@ -1,5 +1,5 @@
 OUTNAME = mallocTester
-COMPFLAGS = -g -Wall -DDEBUG
+COMPFLAGS = -g -Wall -DDEBUG -DSECURE -std=c99
 
 $(OUTNAME): main.c myMalloc.o myMalloc.h myFree.o
 	gcc $(COMPFLAGS) -o main.o -c main.c 
