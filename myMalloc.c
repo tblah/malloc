@@ -1,6 +1,7 @@
 #define _BSD_SOURCE // sbrk
 
 #include <unistd.h> // size_t sbrk
+#include "freeNode.h"
 
 #ifdef DEBUG
 #include <stdio.h> // do we want printf's?
@@ -9,13 +10,11 @@
 // bool
 typedef enum {false, true} bool;
 
-struct freeNode {
-    void* next;
-    size_t size;
-};
-
 // flag so that we know if malloc has been run yet
 int firstRun = true;
+
+// stores where the beginning of the heap is so that we can find it again
+void* beginningOfHeap = NULL;
 
 // utility function to errase memory
 #ifdef SECURE
@@ -31,6 +30,11 @@ void* myMalloc(size_t numBytes) {
     printf("Running my malloc function...\n");
     #endif
 
+    // MAJOR LIMITATION: we need to be able to fit a whole freeNode struct in
+    //  each alloc and so numBytes must be atleast sizeof(void*)
+    if (numBytes < sizeof(void*))
+        numBytes = sizeof(void*);
+
     size_t* size = NULL; // will point to where we are putting the length
     void* userMemory = NULL; // pointer to the memory returned to the user
 
@@ -41,6 +45,9 @@ void* myMalloc(size_t numBytes) {
             printf("This is the first time you have run malloc\n");
             printf("Requesting %li bytes\n", sizeof(void*) + sizeof(size_t) + numBytes);
         #endif
+
+        // set the beginning of the heap so that we can find it again
+        beginningOfHeap = sbrk(0);
 
         // space for the starting pointer for the list of free memory,
         //  the length of the stored segment and the requested memory.

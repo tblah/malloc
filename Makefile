@@ -5,10 +5,10 @@ $(OUTNAME): main.c myMalloc.o myMalloc.h myFree.o
 	gcc $(COMPFLAGS) -o main.o -c main.c 
 	gcc $(COMPFLAGS) -o $@ main.o myMalloc.o myFree.o
 
-myFree.o: myFree.c
+myFree.o: myFree.c freeNode.h
 	gcc $(COMPFLAGS) -o $@ -c myFree.c
 
-myMalloc.o: myMalloc.c
+myMalloc.o: myMalloc.c freeNode.h
 	gcc $(COMPFLAGS) -o $@ -c myMalloc.c
 
 # requirement to supress errors from rm
