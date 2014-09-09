@@ -5,6 +5,11 @@
 
 extern void* beginningOfHeap;
 
+// note that this implementation of free will not ever reduce the program break
+// TO DO: optionally calculate the total memory utilisation after each free
+//           and then do very clever things to decide if its worth decreacing
+//              the program break.
+
 void myFree(void* p) {
     #ifdef DEBUG
     printf("Running my free function\n");
