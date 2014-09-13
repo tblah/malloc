@@ -17,15 +17,6 @@ int firstRun = true;
 // stores where the beginning of the heap is so that we can find it again
 void* beginningOfHeap = NULL;
 
-// utility function to errase memory
-#ifdef SECURE
-void eraiseMemory(void* memory, size_t numBytes) {
-    void* max = memory + numBytes;
-    for (void* i = memory; i < max; i++)
-        *((char *) i) = 0; 
-}
-#endif
-
 struct freeNode* findPreviousNode(struct freeNode* target) {
     if ((target == NULL) | (beginningOfHeap == NULL))
         return NULL;
@@ -103,11 +94,6 @@ void* allocNew(size_t numBytes) {
 
     *((size_t*) freeSegment) = numBytes; // the size is stored at the beginning
     void* userMemory = freeSegment + sizeof(size_t);
-
-    // optionally clear the memory for security
-    #ifdef SECURE
-    eraiseMemory(userMemory, numBytes);
-    #endif
 
     return userMemory;
 }

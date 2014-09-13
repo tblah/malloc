@@ -6,6 +6,16 @@
 
 extern void* beginningOfHeap;
 
+
+// utility function to errase memory
+#ifdef SECURE
+void eraiseMemory(void* memory, size_t numBytes) {
+    void* max = memory + numBytes;
+    for (void* i = memory; i < max; i++)
+        *((char *) i) = 0; 
+}
+#endif
+
 // note that this implementation of free will not ever reduce the program break
 // TO DO: optionally calculate the total memory utilisation after each free
 //           and then do very clever things to decide if its worth decreacing
@@ -22,6 +32,11 @@ void myFree(void* p) {
     // This means that the reported size is the number of bytes origionally
     // passed to malloc: i.e. the total size taken by the free segment is
     // size + sizeof(size_t)
+    
+    // eraise memory for security
+    #ifdef SECURE
+    eraiseMemory(p, size);
+    #endif
 
     // for performance all new free spaces of memory will be at the beginning
     //      of the list.
