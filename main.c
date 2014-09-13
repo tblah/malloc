@@ -2,7 +2,8 @@
 #include <stdio.h>     // for printf
 #include "myMalloc.h"
 
-int main(int argc, char** argv) { // this will do some checking of my malloc function
+// this will do some checking of my malloc function
+int main(int argc, char** argv) { 
     printf("Running tests...\n");
 
     // works the first time
@@ -11,9 +12,9 @@ int main(int argc, char** argv) { // this will do some checking of my malloc fun
     myFree(test);
 
     // works a second time
-    test = myMalloc(sizeof(int));
-    *test = 2;
-    myFree(test);
+    long* test2 = myMalloc(sizeof(long));
+    *test2 = 2;
+    myFree(test2);
 
     // checking conecutive memory is okay
     int* x = myMalloc(sizeof(int));
@@ -37,26 +38,5 @@ int main(int argc, char** argv) { // this will do some checking of my malloc fun
         return EXIT_FAILURE;
     }
 
-    /*int* x = malloc(sizeof(int));
-    int* y = malloc(sizeof(int));
-    int* z = malloc(sizeof(int));
-
-    *x = 1;
-    *z = 2;
-    *y = *x + *z;
-
-    free(x);
-    free(z);
-
-    if (*y == 3){ 
-        free(y);
-        printf("Tests completed succsessfully\n");
-    }
-    else {
-        free(y);
-        printf("Oh dear..final test failed\n");
-        return EXIT_FAILURE;
-    }
-
-    return EXIT_SUCCESS;*/
+    return EXIT_SUCCESS;
 }
